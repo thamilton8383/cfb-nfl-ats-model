@@ -13,10 +13,17 @@ class GameInput(BaseModel):
     away_team: str
     features: Dict[str, float]
 
+print("💡 Files in this folder:", os.listdir(os.path.dirname(__file__)))
+
 # Load model metadata
 meta_path = os.path.join(os.path.dirname(__file__), "model_metadata.txt")
-with open(meta_path) as f:
-    metadata = json.load(f)
+
+try:
+    with open(meta_path, "r") as f:
+        metadata = json.load(f)
+except Exception as e:
+    print("❌ ERROR LOADING METADATA:", e)
+    raise RuntimeError("Could not load model metadata file.")
 
 features_used = metadata["features_used"]
 weights = np.array(metadata["weights"])
