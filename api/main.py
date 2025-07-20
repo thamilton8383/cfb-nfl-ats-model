@@ -1,5 +1,3 @@
-What do i do with the code he sent?
-
 # main.py (or /api/main.py if using Vercel's API folder structure)
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
