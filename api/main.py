@@ -56,6 +56,7 @@ async def predict_game(input_data: GameInput):
         return prediction
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 # Required for Vercel Python runtime
 handler = app
 
