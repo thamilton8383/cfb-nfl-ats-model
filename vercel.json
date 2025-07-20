@@ -1,7 +1,9 @@
 {
   "functions": {
     "api/index.py": {
-      "includeFiles": "api/model_metadata.txt"
+      "includeFiles": [
+        "api/model_metadata.txt"
+      ]
     }
   }
 }
