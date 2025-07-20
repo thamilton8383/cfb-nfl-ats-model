@@ -22,6 +22,11 @@
         "letdown_spot",
         "short_rest"
     ],
-    "weights": "Auto-optimized from 100,000 model runs",
+"weights": [
+    0.23, -0.45, 0.12, 0.88, -0.36,
+    0.01, 0.05, -0.4, 0.2, 0.09,
+    0.3, -0.25, 0.18, -0.31, 0.06,
+    0.12, -0.15, 0.08
+]
     "intercept": 0.0
 }
