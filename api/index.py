@@ -1,29 +1,18 @@
-# main.py (or /api/main.py if using Vercel's API folder structure)
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Any
 import numpy as np
 import json
 import os
-import joblib
 
 app = FastAPI()
 
-# --- Input schema ---
 class GameInput(BaseModel):
     home_team: str
     away_team: str
-    features: Dict[str, float]  # dynamic input features
+    features: Dict[str, float]
 
-# --- Load metadata and model rebuild function ---
 meta_path = os.path.join(os.path.dirname(__file__), "model_metadata.txt")
-
-# fallback if file not found (for Vercel)
-if not os.path.exists(meta_path):
-    meta_path = "/var/task/api/model_metadata.txt"
-
-if not os.path.exists(meta_path):
-    raise RuntimeError(f"Metadata file not found at: {meta_path}")
 
 with open(meta_path, "r") as f:
     metadata = json.load(f)
@@ -32,11 +21,9 @@ features_used = metadata["features_used"]
 weights = np.array(metadata["weights"])
 intercept = metadata.get("intercept", 0.0)
 
-# Optional thresholds
 TRAP_THRESHOLD = -3.0
 SHARP_THRESHOLD = 3.0
 
-# --- Model logic ---
 def predict_outcome(features: Dict[str, float]) -> Dict[str, Any]:
     x = np.array([features[feat] for feat in features_used]).reshape(1, -1)
     logits = np.dot(x, weights) + intercept
@@ -57,7 +44,6 @@ def predict_outcome(features: Dict[str, float]) -> Dict[str, Any]:
         "sharp_signal": sharp_signal
     }
 
-# --- POST endpoint ---
 @app.post("/predict")
 async def predict_game(input_data: GameInput):
     try:
@@ -66,6 +52,4 @@ async def predict_game(input_data: GameInput):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-# Required for Vercel Python runtime
 handler = app
-
