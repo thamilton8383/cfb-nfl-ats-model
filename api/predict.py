@@ -46,3 +46,7 @@ async def predict_game(input_data: GameInput):
 
 # Required for Vercel
 handler = app
+
+@app.get("/")
+def root():
+    return {"message": "Hello from Vercel!"}
