@@ -18,6 +18,10 @@ class GameInput(BaseModel):
 # --- Load metadata and model rebuild function ---
 meta_path = os.path.join(os.path.dirname(__file__), "model_metadata.txt")
 
+# fallback if file not found (for Vercel)
+if not os.path.exists(meta_path):
+    meta_path = "/var/task/api/model_metadata.txt"
+
 if not os.path.exists(meta_path):
     raise RuntimeError(f"Metadata file not found at: {meta_path}")
 
