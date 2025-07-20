@@ -16,7 +16,7 @@ class GameInput(BaseModel):
     features: Dict[str, float]  # dynamic input features
 
 # --- Load metadata and model rebuild function ---
-with open("model_metadata.txt", "r") as f:
+with open(os.path.join(os.path.dirname(__file__), "model_metadata.txt"), "r") as f:
     metadata = json.load(f)
 
 features_used = metadata["features_used"]
